@@ -7,9 +7,13 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import java.time.LocalDateTime;
+import lombok.Builder;
+import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
+@Builder
+@Getter
 @Entity
 public class User {
     @Id
@@ -27,4 +31,7 @@ public class User {
     @LastModifiedDate
     private LocalDateTime modify;
 
+    public User() {
+
+    }
 }
