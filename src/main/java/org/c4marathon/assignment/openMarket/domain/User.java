@@ -12,7 +12,6 @@ import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
-@Builder
 @Getter
 @Entity
 public class User {
@@ -30,6 +29,21 @@ public class User {
     private LocalDateTime create;
     @LastModifiedDate
     private LocalDateTime modify;
+
+    @Builder
+    public User(Long id, String accountId, String password, String name, String nickName, String phoneNumber,
+                UserRole role,
+                LocalDateTime create, LocalDateTime modify) {
+        this.id = id;
+        this.accountId = accountId;
+        this.password = password;
+        this.name = name;
+        this.nickName = nickName;
+        this.phoneNumber = phoneNumber;
+        this.role = role;
+        this.create = create;
+        this.modify = modify;
+    }
 
     public User() {
 
