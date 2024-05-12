@@ -21,6 +21,11 @@ public class UserService {
         return user.getId();
     }
 
+    //readOnly
+    public List<User> findUsers(){
+        return userRepository.findAll();
+    }
+
     private void validateDuplicateMember(User user) {
         //Exception
         Optional<User> findUser = userRepository.findByAccountId(user.getAccountId());
