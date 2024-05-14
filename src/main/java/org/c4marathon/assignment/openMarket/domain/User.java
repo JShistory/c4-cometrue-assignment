@@ -9,6 +9,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
+
+import jakarta.validation.constraints.Email;
 import lombok.Builder;
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
@@ -26,6 +28,8 @@ public class User {
     private String name;
     private String nickName;
     private String phoneNumber;
+    @Email
+    private String email;
     @Enumerated(EnumType.STRING)
     private UserRole role;
     @CreatedDate
@@ -34,7 +38,7 @@ public class User {
     private LocalDateTime modify;
 
     @Builder
-    public User(Long id, String accountId, String password, String name, String nickName, String phoneNumber,
+    public User(Long id, String accountId, String password, String name, String nickName, String phoneNumber,String email,
                 UserRole role,
                 LocalDateTime create, LocalDateTime modify) {
         this.id = id;
@@ -43,6 +47,7 @@ public class User {
         this.name = name;
         this.nickName = nickName;
         this.phoneNumber = phoneNumber;
+        this.email = email;
         this.role = role;
         this.create = create;
         this.modify = modify;
