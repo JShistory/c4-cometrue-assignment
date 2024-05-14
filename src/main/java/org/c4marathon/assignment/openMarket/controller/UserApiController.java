@@ -2,6 +2,7 @@ package org.c4marathon.assignment.openMarket.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.c4marathon.assignment.openMarket.domain.User;
+import org.c4marathon.assignment.openMarket.dto.UserDTO;
 import org.c4marathon.assignment.openMarket.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,10 +18,10 @@ import java.util.List;
 public class UserApiController {
     private final UserService userService;
     @PostMapping("/users")
-    public ResponseEntity createUser(@RequestBody User user){
-        userService.join(user);
+    public ResponseEntity createUser(@RequestBody UserDTO user){
+        Long userId = userService.join(user);
         return ResponseEntity
                 .ok()
-                .body(user.getId());
+                .body(userId);
     }
 }
