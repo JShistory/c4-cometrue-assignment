@@ -36,6 +36,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-jdbc'
     // Spring Security 추가
     implementation 'org.springframework.boot:spring-boot-starter-security'
+    // spring validation 추가
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
 }
 
 checkstyle {
