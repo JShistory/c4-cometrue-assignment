@@ -1,5 +1,6 @@
 package org.c4marathon.assignment.openMarket.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.c4marathon.assignment.openMarket.domain.User;
 import org.c4marathon.assignment.openMarket.dto.UserDTO;
@@ -18,7 +19,7 @@ import java.util.List;
 public class UserApiController {
     private final UserService userService;
     @PostMapping("/users")
-    public ResponseEntity createUser(@RequestBody UserDTO user){
+    public ResponseEntity createUser(@RequestBody @Valid UserDTO user){
         Long userId = userService.join(user);
         return ResponseEntity
                 .ok()
