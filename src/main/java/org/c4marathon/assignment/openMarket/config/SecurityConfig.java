@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HttpBasicConfigurer;
@@ -34,11 +35,12 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorizeRequest ->
                         authorizeRequest
                                 .requestMatchers(
-                                        AntPathRequestMatcher.antMatcher("/api/v1/**")
+                                        AntPathRequestMatcher.antMatcher("/**")
                                 ).permitAll()
                                 .requestMatchers(
                                         AntPathRequestMatcher.antMatcher("/h2-console/**")
                                 ).permitAll()
+
                 )
                 .headers(
                         headersConfigurer ->
@@ -48,5 +50,17 @@ public class SecurityConfig {
                                         )
                 )
                 .build();
+
+    }
+
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        // 정적 리소스 spring security 대상에서 제외
+        return (web) ->
+                web
+                        .ignoring()
+                        .requestMatchers(
+                                PathRequest.toStaticResources().atCommonLocations()
+                        );
     }
 }
