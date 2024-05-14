@@ -8,6 +8,7 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HttpBasicConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -28,11 +29,24 @@ public class SecurityConfig {
         return http
                 .httpBasic(HttpBasicConfigurer::disable)
                 .csrf(CsrfConfigurer::disable)
+
                 .cors(Customizer.withDefaults())
-                .authorizeRequests()
-                .requestMatchers(new AntPathRequestMatcher("/api/v1/users")).permitAll()
-                .requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
-                .and()
+                .authorizeHttpRequests(authorizeRequest ->
+                        authorizeRequest
+                                .requestMatchers(
+                                        AntPathRequestMatcher.antMatcher("/api/v1/users")
+                                ).permitAll()
+                                .requestMatchers(
+                                        AntPathRequestMatcher.antMatcher("/h2-console/**")
+                                ).permitAll()
+                )
+                .headers(
+                        headersConfigurer ->
+                                headersConfigurer
+                                        .frameOptions(
+                                                HeadersConfigurer.FrameOptionsConfig::sameOrigin
+                                        )
+                )
                 .build();
     }
 }
