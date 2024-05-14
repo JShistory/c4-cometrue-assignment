@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.c4marathon.assignment.openMarket.domain.User;
+import org.c4marathon.assignment.openMarket.dto.UserDTO;
 import org.c4marathon.assignment.openMarket.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,10 +16,11 @@ public class UserService {
     private final UserRepository userRepository;
 
     @Transactional
-    public Long join(User user){
-        validateDuplicateMember(user);
-        userRepository.save(user);
-        return user.getId();
+    public Long join(UserDTO user){
+        User saveUser = user.toEntity();
+        validateDuplicateMember(saveUser);
+        userRepository.save(saveUser);
+        return saveUser.getId();
     }
 
     //readOnly
