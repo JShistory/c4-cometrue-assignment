@@ -28,6 +28,7 @@ public class User {
     private String name;
     private String nickName;
     private String phoneNumber;
+    private Long money;
     @Email
     private String email;
     @Enumerated(EnumType.STRING)
@@ -38,7 +39,7 @@ public class User {
     private LocalDateTime modify;
 
     @Builder
-    public User(Long id, String accountId, String password, String name, String nickName, String phoneNumber,String email,
+    public User(Long id, String accountId, String password, String name, String nickName, String phoneNumber,String email, Long money,
                 UserRole role,
                 LocalDateTime create, LocalDateTime modify) {
         this.id = id;
@@ -51,6 +52,7 @@ public class User {
         this.role = role;
         this.create = create;
         this.modify = modify;
+        this.money = money;
     }
 
     public User() {

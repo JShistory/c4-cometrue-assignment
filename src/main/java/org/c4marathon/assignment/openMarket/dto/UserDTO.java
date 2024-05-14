@@ -45,6 +45,7 @@ public class UserDTO {
                 .phoneNumber(this.phoneNumber)
                 .role(UserRole.USER)
                 .email(this.email)
+                .money(0L)
                 .modify(LocalDateTime.now())
                 .create(LocalDateTime.now())
                 .build();
