@@ -28,6 +28,13 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    public UserDTO findOne(Long id){
+        Optional<User> userOne = userRepository.findById(id);
+        if(userOne.isEmpty()){
+            throw new IllegalStateException("존재하지 않는 회원입니다.");
+        }
+        return new UserDTO().fromEntity(userOne.get());
+    }
     private void validateDuplicateMember(User user) {
         //Exception
         Optional<User> findUser = userRepository.findByAccountId(user.getAccountId());

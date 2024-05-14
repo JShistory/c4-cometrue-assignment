@@ -6,10 +6,7 @@ import org.c4marathon.assignment.openMarket.domain.User;
 import org.c4marathon.assignment.openMarket.dto.UserDTO;
 import org.c4marathon.assignment.openMarket.service.UserService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,5 +21,12 @@ public class UserApiController {
         return ResponseEntity
                 .ok()
                 .body(userId);
+    }
+
+    @GetMapping("/users/{id}")
+    public ResponseEntity userOne(@PathVariable("id") Long id){
+        UserDTO user = userService.findOne(id);
+        return ResponseEntity.ok()
+                .body(user);
     }
 }
