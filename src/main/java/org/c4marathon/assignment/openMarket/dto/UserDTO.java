@@ -7,12 +7,15 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Data;
+import org.c4marathon.assignment.openMarket.domain.Item;
 import org.c4marathon.assignment.openMarket.domain.User;
 import org.c4marathon.assignment.openMarket.domain.UserRole;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 public class UserDTO {
@@ -38,9 +41,11 @@ public class UserDTO {
     private LocalDateTime create;
     @LastModifiedDate
     private LocalDateTime modify;
+    private List<Item> items = new ArrayList<>();
 
     @Builder
-    public UserDTO(Long id, String accountId, String password, String name, String nickName, String phoneNumber, String email, Long money, UserRole role, LocalDateTime create, LocalDateTime modify) {
+    public UserDTO(Long id, String accountId, String password, String name, String nickName, String phoneNumber, String email, Long money, UserRole role, LocalDateTime create, LocalDateTime modify
+    ,List<Item> items) {
         this.id = id;
         this.accountId = accountId;
         this.password = password;
@@ -52,6 +57,7 @@ public class UserDTO {
         this.role = role;
         this.create = create;
         this.modify = modify;
+        this.items = items;
     }
 
 
@@ -65,9 +71,10 @@ public class UserDTO {
                 .phoneNumber(this.phoneNumber)
                 .role(UserRole.USER)
                 .email(this.email)
-                .money(0L)
-                .modify(LocalDateTime.now())
-                .create(LocalDateTime.now())
+                .money(this.money)
+                .modify(this.modify)
+                .create(this.create)
+                .items(this.items)
                 .build();
     }
 
@@ -84,6 +91,7 @@ public class UserDTO {
                 .money(user.getMoney())
                 .modify(user.getModify())
                 .create(user.getCreate())
+                .items(user.getItems())
                 .build();
     }
 

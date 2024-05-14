@@ -1,14 +1,10 @@
 package org.c4marathon.assignment.openMarket.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import jakarta.validation.constraints.Email;
 import lombok.Builder;
@@ -37,11 +33,13 @@ public class User {
     private LocalDateTime create;
     @LastModifiedDate
     private LocalDateTime modify;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Item> items = new ArrayList<>();
 
     @Builder
     public User(Long id, String accountId, String password, String name, String nickName, String phoneNumber,String email, Long money,
                 UserRole role,
-                LocalDateTime create, LocalDateTime modify) {
+                LocalDateTime create, LocalDateTime modify, List<Item> items) {
         this.id = id;
         this.accountId = accountId;
         this.password = password;
@@ -53,6 +51,7 @@ public class User {
         this.create = create;
         this.modify = modify;
         this.money = money;
+        this.items = items;
     }
 
     public User() {
