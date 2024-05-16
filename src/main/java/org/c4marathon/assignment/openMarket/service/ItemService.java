@@ -8,17 +8,25 @@ import org.c4marathon.assignment.openMarket.repository.ItemRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Service
 public class ItemService {
     private final ItemRepository itemRepository;
+    private final UserService userService;
 
     @Transactional
-    public Long saveItem(ItemDTO item, UserDTO user){
+    public Long saveItem(ItemDTO item, Long userId){
+        UserDTO user = userService.findOne(userId);
         Item saveItem = item.toEntity();
-//        saveItem.setUser(user.toEntity());
+        saveItem.setUser(user.toEntity());
         itemRepository.save(saveItem);
         return saveItem.getId();
+    }
+
+    public List<Item> findAll(){
+        return itemRepository.findAll();
     }
 }
