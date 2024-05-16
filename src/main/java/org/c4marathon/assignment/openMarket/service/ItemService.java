@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -26,7 +27,11 @@ public class ItemService {
         return saveItem.getId();
     }
 
-    public List<Item> findAll(){
-        return itemRepository.findAll();
+    public List<ItemDTO> findAll(){
+        List<ItemDTO> itemList = itemRepository.findAll().stream()
+                .map(ItemDTO::new)
+                .collect(Collectors.toList());
+
+        return itemList;
     }
 }
