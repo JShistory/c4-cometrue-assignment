@@ -57,13 +57,13 @@ public class UserDTO {
         this.role = role;
         this.create = create;
         this.modify = modify;
-        this.items = items;
     }
 
 
 
     public User toEntity(){
         return User.builder()
+                .id(this.id)
                 .accountId(this.accountId)
                 .password(this.password)
                 .name(this.name)
