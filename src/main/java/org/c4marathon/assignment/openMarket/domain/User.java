@@ -33,8 +33,8 @@ public class User {
     private LocalDateTime create;
     @LastModifiedDate
     private LocalDateTime modify;
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Item> items = new ArrayList<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE) // 회원이 삭제되면, 회원 물품도 삭제
+    private List<Item> items;
 
     @Builder
     public User(Long id, String accountId, String password, String name, String nickName, String phoneNumber,String email, Long money,
