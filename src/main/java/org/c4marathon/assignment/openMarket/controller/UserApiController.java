@@ -36,8 +36,7 @@ public class UserApiController {
 
     @PostMapping("/users/{id}/items")
     public ResponseEntity createItem(@RequestBody @Valid ItemDTO item, @PathVariable("id") Long id){
-        UserDTO user = userService.findOne(id);
-        Long saveItem = itemService.saveItem(item, user);
+        Long saveItem = itemService.saveItem(item, id);
         return ResponseEntity.ok()
                 .body(saveItem);
     }
@@ -52,5 +51,14 @@ public class UserApiController {
             }
         }
         return ResponseEntity.notFound().build();
+    }
+
+    @GetMapping("/items")
+    public ResponseEntity items(){
+        List<Item> itemList = itemService.findAll();
+        if(itemList.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().body(itemList);
     }
 }
