@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.c4marathon.assignment.openMarket.domain.User;
 import org.c4marathon.assignment.openMarket.dto.UserDTO;
 import org.c4marathon.assignment.openMarket.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,10 +15,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 @Service
 public class UserService {
+    private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
 
     @Transactional
     public Long join(UserDTO user){
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         User saveUser = user.toEntity();
         validateDuplicateMember(saveUser);
         userRepository.save(saveUser);
