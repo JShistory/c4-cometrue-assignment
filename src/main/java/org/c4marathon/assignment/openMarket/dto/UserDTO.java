@@ -9,8 +9,10 @@ import lombok.Data;
 import org.c4marathon.assignment.openMarket.domain.Item;
 import org.c4marathon.assignment.openMarket.domain.User;
 import org.c4marathon.assignment.openMarket.domain.UserRole;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -43,6 +45,22 @@ public class UserDTO {
     private LocalDateTime modify;
     private List<ItemDTO> items = new ArrayList<>(); // ItemDTO 리스트로 수정
 
+    public User createToEntity(){
+        return User.builder()
+                .id(this.id)
+                .accountId(this.accountId)
+                .password(this.password)
+                .name(this.name)
+                .nickName(this.nickName)
+                .phoneNumber(this.phoneNumber)
+                .role(UserRole.USER)
+                .email(this.email)
+                .money(0L)
+                .modify(LocalDateTime.now())
+                .create(LocalDateTime.now())
+                .items(this.items.stream().map(ItemDTO::toEntity).collect(Collectors.toList())) // ItemDTO를 Item 엔티티로 변환
+                .build();
+    }
     public User toEntity(){
         return User.builder()
                 .id(this.id)
