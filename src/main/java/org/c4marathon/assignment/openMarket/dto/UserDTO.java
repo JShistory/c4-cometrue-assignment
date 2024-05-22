@@ -69,7 +69,7 @@ public class UserDTO {
                 .name(this.name)
                 .nickName(this.nickName)
                 .phoneNumber(this.phoneNumber)
-                .role(UserRole.USER)
+                .role(this.role)
                 .email(this.email)
                 .money(this.money)
                 .modified(this.modify)

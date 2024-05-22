@@ -22,7 +22,7 @@ public class UserService {
     @Transactional
     public Long join(UserDTO user){
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRole(UserRole.ADMIN);
+        user.setRole(UserRole.ROLE_ADMIN);
         User saveUser = user.createToEntity();
         validateDuplicateMember(saveUser);
         userRepository.save(saveUser);
