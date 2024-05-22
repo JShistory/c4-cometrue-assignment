@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.c4marathon.assignment.openMarket.domain.User;
+import org.c4marathon.assignment.openMarket.domain.UserRole;
 import org.c4marathon.assignment.openMarket.dto.UserDTO;
 import org.c4marathon.assignment.openMarket.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ public class UserService {
     @Transactional
     public Long join(UserDTO user){
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRole(UserRole.ADMIN);
         User saveUser = user.createToEntity();
         validateDuplicateMember(saveUser);
         userRepository.save(saveUser);

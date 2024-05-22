@@ -30,16 +30,16 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserRole role;
     @CreatedDate
-    private LocalDateTime create;
+    private LocalDateTime created;
     @LastModifiedDate
-    private LocalDateTime modify;
+    private LocalDateTime modified;
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE) // 회원이 삭제되면, 회원 물품도 삭제
     private List<Item> items;
 
     @Builder
     public User(Long id, String accountId, String password, String name, String nickName, String phoneNumber,String email, Long money,
                 UserRole role,
-                LocalDateTime create, LocalDateTime modify, List<Item> items) {
+                LocalDateTime created, LocalDateTime modified, List<Item> items) {
         this.id = id;
         this.accountId = accountId;
         this.password = password;
@@ -48,8 +48,8 @@ public class User {
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.role = role;
-        this.create = create;
-        this.modify = modify;
+        this.created = created;
+        this.modified = modified;
         this.money = money;
         this.items = items;
     }

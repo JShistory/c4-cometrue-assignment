@@ -53,11 +53,11 @@ public class UserDTO {
                 .name(this.name)
                 .nickName(this.nickName)
                 .phoneNumber(this.phoneNumber)
-                .role(UserRole.USER)
+                .role(this.role)
                 .email(this.email)
                 .money(0L)
-                .modify(LocalDateTime.now())
-                .create(LocalDateTime.now())
+                .modified(LocalDateTime.now())
+                .created(LocalDateTime.now())
                 .items(this.items.stream().map(ItemDTO::toEntity).collect(Collectors.toList())) // ItemDTO를 Item 엔티티로 변환
                 .build();
     }
@@ -72,8 +72,8 @@ public class UserDTO {
                 .role(UserRole.USER)
                 .email(this.email)
                 .money(this.money)
-                .modify(this.modify)
-                .create(this.create)
+                .modified(this.modify)
+                .created(this.create)
                 .items(this.items.stream().map(ItemDTO::toEntity).collect(Collectors.toList())) // ItemDTO를 Item 엔티티로 변환
                 .build();
     }
@@ -89,8 +89,8 @@ public class UserDTO {
         dto.setRole(user.getRole());
         dto.setEmail(user.getEmail());
         dto.setMoney(user.getMoney());
-        dto.setModify(user.getModify());
-        dto.setCreate(user.getCreate());
+        dto.setModify(user.getModified());
+        dto.setCreate(user.getCreated());
         dto.setItems(user.getItems().stream().map(ItemDTO::fromEntity).collect(Collectors.toList())); // Item 엔티티를 ItemDTO로 변환
         return dto;
     }

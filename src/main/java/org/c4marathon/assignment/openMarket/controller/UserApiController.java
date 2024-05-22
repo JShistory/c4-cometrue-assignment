@@ -5,12 +5,18 @@ import lombok.RequiredArgsConstructor;
 import org.c4marathon.assignment.openMarket.domain.Item;
 import org.c4marathon.assignment.openMarket.domain.User;
 import org.c4marathon.assignment.openMarket.dto.ItemDTO;
+import org.c4marathon.assignment.openMarket.dto.LoginDTO;
 import org.c4marathon.assignment.openMarket.dto.UserDTO;
 import org.c4marathon.assignment.openMarket.service.ItemService;
 import org.c4marathon.assignment.openMarket.service.UserService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.Authentication;
 
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -27,12 +33,31 @@ public class UserApiController {
                 .body(userId);
     }
 
+    @GetMapping("/users")
+    public ResponseEntity user(){
+        String id = SecurityContextHolder.getContext().getAuthentication().getName();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+        Iterator<? extends GrantedAuthority> iter = authorities.iterator();
+        GrantedAuthority auth = iter.next();
+        String role = auth.getAuthority();
+        return ResponseEntity
+                .ok()
+                .body(role);
+    }
+
     @GetMapping("/users/{id}")
     public ResponseEntity userOne(@PathVariable("id") Long id){
         UserDTO user = userService.findOne(id);
         return ResponseEntity.ok()
                 .body(user);
     }
+
+//    @PostMapping("/users/login")
+//    public ResponseEntity login(LoginDTO loginDTO){
+//
+//    }
 
     @PostMapping("/users/{id}/items")
     public ResponseEntity createItem(@RequestBody @Valid ItemDTO item, @PathVariable("id") Long id){
