@@ -43,6 +43,13 @@ public class SecurityConfig {
                             .permitAll()
                 );
 
+        http
+                .logout((auth) -> auth
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/")
+                        .deleteCookies("JSESSIONID", "remember-me")
+                );
+
 
         http
                 .csrf((auth) -> auth.disable());
