@@ -31,13 +31,13 @@ public class SecurityConfig {
 
         http
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/", "/user", "userProc","/login").permitAll()
-                        .requestMatchers("/admin").hasRole("ADMIN")
-                        .requestMatchers("/item").hasAnyRole("SELLER","ADMIN")
+                        .requestMatchers("/", "/user", "userProc","/login","/item/itemList").permitAll()
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/user/**").hasRole("USER")
+                        .requestMatchers("/item/**").hasAnyRole("SELLER","ADMIN")
                         .anyRequest().authenticated()
+
                 );
-
-
         http
                 .formLogin((auth) -> auth.loginPage("/login")
                             .loginProcessingUrl("/loginProc")
@@ -63,6 +63,7 @@ public class SecurityConfig {
         return http.build();
 
     }
+
 
 
 }

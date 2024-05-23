@@ -59,6 +59,10 @@ public class User {
     }
 
     public void buyItem(Long price){
+        long money = this.money - price;
+        if(money < 0){
+            throw new IllegalStateException("금액이 부족합니다.");
+        }
         this.money -= price;
     }
 }

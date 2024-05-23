@@ -17,13 +17,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 
 @RequiredArgsConstructor
+@RequestMapping("/item")
 @Controller
 public class ItemController {
     private final ItemService itemService;
     private final UserService userService;
-    @GetMapping("/items")
+    @GetMapping("/itemList")
     public String items(Model model){
-        List<ItemDTO> itemList = itemService.findAll();
+        var itemList = itemService.findAll();
         System.out.println("itemList : " + itemList);
         model.addAttribute("items",itemList);
         return "itemList";
@@ -33,13 +34,13 @@ public class ItemController {
         return "itemCreate";
     }
 
-    @PostMapping("/items")
+    @PostMapping("/itemForm")
     public String addItem(ItemDTO item) {
         String id = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userService.findByAccountId(id);
         UserDTO userDTO = UserDTO.fromEntity(user);
 
         itemService.saveItem(item,userDTO.getId());
-        return "redirect:/items";
+        return "redirect:/item/itemList";
     }
 }
