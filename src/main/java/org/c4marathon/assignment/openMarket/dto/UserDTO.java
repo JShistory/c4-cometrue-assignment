@@ -55,7 +55,7 @@ public class UserDTO {
                 .phoneNumber(this.phoneNumber)
                 .role(this.role)
                 .email(this.email)
-                .money(0L)
+                .money(10000L)
                 .modified(LocalDateTime.now())
                 .created(LocalDateTime.now())
                 .items(this.items.stream().map(ItemDTO::toEntity).collect(Collectors.toList())) // ItemDTO를 Item 엔티티로 변환

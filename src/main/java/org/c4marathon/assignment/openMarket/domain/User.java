@@ -57,4 +57,8 @@ public class User {
     public User() {
 
     }
+
+    public void buyItem(Long price){
+        this.money -= price;
+    }
 }

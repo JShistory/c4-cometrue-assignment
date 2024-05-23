@@ -2,6 +2,7 @@ package org.c4marathon.assignment.openMarket.service;
 
 import lombok.RequiredArgsConstructor;
 import org.c4marathon.assignment.openMarket.domain.Item;
+import org.c4marathon.assignment.openMarket.domain.User;
 import org.c4marathon.assignment.openMarket.dto.ItemDTO;
 import org.c4marathon.assignment.openMarket.dto.UserDTO;
 import org.c4marathon.assignment.openMarket.repository.ItemRepository;
@@ -20,9 +21,10 @@ public class ItemService {
 
     @Transactional
     public Long saveItem(ItemDTO item, Long userId){
-        UserDTO user = userService.findOne(userId);
+        User user = userService.findOne(userId);
+        UserDTO userDTO = UserDTO.fromEntity(user);
         Item saveItem = item.toEntity();
-        saveItem.setUser(user.toEntity());
+        saveItem.setUser(userDTO.toEntity());
         itemRepository.save(saveItem);
         return saveItem.getId();
     }
@@ -34,4 +36,9 @@ public class ItemService {
 
         return itemList;
     }
+
+    public Item findById(Long id){
+        return itemRepository.findById(id).orElseThrow(() -> new IllegalStateException("해당 상품은 존재하지 않습니다."));
+    }
+
 }

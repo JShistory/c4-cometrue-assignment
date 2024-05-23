@@ -33,6 +33,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers("/", "/user", "userProc","/login").permitAll()
                         .requestMatchers("/admin").hasRole("ADMIN")
+                        .requestMatchers("/item").hasAnyRole("SELLER","ADMIN")
                         .anyRequest().authenticated()
                 );
 
@@ -49,6 +50,11 @@ public class SecurityConfig {
                         .logoutSuccessUrl("/")
                         .deleteCookies("JSESSIONID", "remember-me")
                 );
+
+        http
+                .sessionManagement((auth) -> auth
+                        .maximumSessions(1)
+                        .maxSessionsPreventsLogin(true));
 
 
         http

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Item Registration</title>
+    <style>
+        form {
+            max-width: 600px;
+            margin: auto;
+            padding: 1em;
+            border: 1px solid #ccc;
+            border-radius: 1em;
+        }
+        div {
+            margin-bottom: 1em;
+        }
+        label {
+            margin-bottom: .5em;
+            color: #333333;
+        }
+        input, textarea {
+            border: 1px solid #CCCCCC;
+            border-radius: 4px;
+            box-sizing: border-box;
+            width: 100%;
+            padding: .5em;
+        }
+        button {
+            padding: 0.7em;
+            color: #fff;
+            background-color: #007BFF;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<h1>Register New Item</h1>
+<form action="/items" method="post">
+    <div>
+        <label for="id">ID:</label>
+        <input type="number" id="id" name="id" required>
+    </div>
+    <div>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+    </div>
+    <div>
+        <label for="price">Price:</label>
+        <input type="number" id="price" name="price" required>
+    </div>
+    <div>
+        <label for="amount">Amount:</label>
+        <input type="number" id="amount" name="amount" required>
+    </div>
+    <div>
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" required></textarea>
+    </div>
+    <div>
+        <label for="picture">Picture URL:</label>
+        <input type="url" id="picture" name="picture" required>
+    </div>
+    <div>
+        <label for="userId">User ID:</label>
+        <input type="number" id="userId" name="userId" required>
+    </div>
+    <button type="submit">Register Item</button>
+</form>
+</body>
+</html>

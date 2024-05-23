@@ -49,9 +49,10 @@ public class UserApiController {
 
     @GetMapping("/users/{id}")
     public ResponseEntity userOne(@PathVariable("id") Long id){
-        UserDTO user = userService.findOne(id);
+        User user = userService.findOne(id);
+        UserDTO userDTO = UserDTO.fromEntity(user);
         return ResponseEntity.ok()
-                .body(user);
+                .body(userDTO);
     }
 
 //    @PostMapping("/users/login")
@@ -67,8 +68,9 @@ public class UserApiController {
     }
     @GetMapping("/users/{id}/items/{item_id}")
     public ResponseEntity createItem(@PathVariable("id") Long id, @PathVariable("item_id") Long itemId){
-        UserDTO user = userService.findOne(id);
-        List<ItemDTO> items = user.getItems();
+        User user = userService.findOne(id);
+        UserDTO userDTO = UserDTO.fromEntity(user);
+        List<ItemDTO> items = userDTO.getItems();
         for(ItemDTO data : items){
             if(data.getId().equals(itemId)){
                 return ResponseEntity.ok()
@@ -78,12 +80,5 @@ public class UserApiController {
         return ResponseEntity.notFound().build();
     }
 
-    @GetMapping("/items")
-    public ResponseEntity items(){
-        List<ItemDTO> itemList = itemService.findAll();
-        if(itemList.isEmpty()){
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok().body(itemList);
-    }
+
 }
