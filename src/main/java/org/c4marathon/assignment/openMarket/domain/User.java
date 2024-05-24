@@ -35,11 +35,13 @@ public class User {
     private LocalDateTime modified;
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE) // 회원이 삭제되면, 회원 물품도 삭제
     private List<Item> items;
+    @OneToOne(fetch = FetchType.LAZY)
+    private Cart cart;
 
     @Builder
     public User(Long id, String accountId, String password, String name, String nickName, String phoneNumber,String email, Long money,
                 UserRole role,
-                LocalDateTime created, LocalDateTime modified, List<Item> items) {
+                LocalDateTime created, LocalDateTime modified, List<Item> items, Cart cart) {
         this.id = id;
         this.accountId = accountId;
         this.password = password;
@@ -52,6 +54,7 @@ public class User {
         this.modified = modified;
         this.money = money;
         this.items = items;
+        this.cart = cart;
     }
 
     public User() {
@@ -64,5 +67,9 @@ public class User {
             throw new IllegalStateException("금액이 부족합니다.");
         }
         this.money -= price;
+    }
+
+    public void initCart(Cart cart){
+        this.cart = cart;
     }
 }
