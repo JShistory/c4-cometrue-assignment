@@ -20,11 +20,9 @@ public class ItemService {
     private final UserService userService;
 
     @Transactional
-    public Long saveItem(ItemDTO item, Long userId){
-        User user = userService.findOne(userId);
-        UserDTO userDTO = UserDTO.fromEntity(user);
+    public Long saveItem(ItemDTO item, User user){
         Item saveItem = item.toEntity();
-        saveItem.setUser(userDTO.toEntity());
+        saveItem.setUser(user);
         itemRepository.save(saveItem);
         return saveItem.getId();
     }

@@ -38,9 +38,8 @@ public class ItemController {
     public String addItem(ItemDTO item) {
         String id = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userService.findByAccountId(id);
-        UserDTO userDTO = UserDTO.fromEntity(user);
 
-        itemService.saveItem(item,userDTO.getId());
+        itemService.saveItem(item,user);
         return "redirect:/item/itemList";
     }
 }
