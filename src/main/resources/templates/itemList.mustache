@@ -32,7 +32,8 @@
         <th>Name</th>
         <th>Price</th>
         <th>Amount</th>
-        <th>Action</th>
+        <th>Buy</th>
+        <th>AddCart</th>
     </tr>
     </thead>
     <tbody>
@@ -45,6 +46,11 @@
             <td>
                 <form action="/user/item/{{id}}" method="post">
                     <button type="submit">Buy</button>
+                </form>
+            </td>
+            <td>
+                <form action="/user/addItem/{{id}}" method="post">
+                    <button type="submit">addCart</button>
                 </form>
             </td>
         </tr>
