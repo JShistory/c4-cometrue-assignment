@@ -15,11 +15,12 @@ public class Item {
     private int amount;
     private String description;
     private String picture;
-
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Cart cart;
     @Builder
-    public Item(Long id, String name, Long price, int amount, String description, String picture, User user) {
+    public Item(Long id, String name, Long price, int amount, String description, String picture, User user, Cart cart) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -27,6 +28,7 @@ public class Item {
         this.description = description;
         this.picture = picture;
         this.user = user;
+        this.cart = cart;
     }
 
     public void setUser(User user){

@@ -5,17 +5,19 @@ import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Builder;
 import lombok.Data;
 import org.c4marathon.assignment.openMarket.domain.Item;
 import org.c4marathon.assignment.openMarket.domain.User;
 import org.c4marathon.assignment.openMarket.domain.UserRole;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 public class UserDTO {
@@ -41,61 +43,55 @@ public class UserDTO {
     private LocalDateTime create;
     @LastModifiedDate
     private LocalDateTime modify;
-    private List<Item> items = new ArrayList<>();
+    private List<ItemDTO> items = new ArrayList<>(); // ItemDTO 리스트로 수정
 
-    @Builder
-    public UserDTO(Long id, String accountId, String password, String name, String nickName, String phoneNumber, String email, Long money, UserRole role, LocalDateTime create, LocalDateTime modify
-    ,List<Item> items) {
-        this.id = id;
-        this.accountId = accountId;
-        this.password = password;
-        this.name = name;
-        this.nickName = nickName;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
-        this.money = money;
-        this.role = role;
-        this.create = create;
-        this.modify = modify;
-        this.items = items;
-    }
-
-
-
-    public User toEntity(){
+    public User createToEntity(){
         return User.builder()
+                .id(this.id)
                 .accountId(this.accountId)
                 .password(this.password)
                 .name(this.name)
                 .nickName(this.nickName)
                 .phoneNumber(this.phoneNumber)
-                .role(UserRole.USER)
+                .role(this.role)
+                .email(this.email)
+                .money(10000L)
+                .modified(LocalDateTime.now())
+                .created(LocalDateTime.now())
+                .items(this.items.stream().map(ItemDTO::toEntity).collect(Collectors.toList())) // ItemDTO를 Item 엔티티로 변환
+                .build();
+    }
+    public User toEntity(){
+        return User.builder()
+                .id(this.id)
+                .accountId(this.accountId)
+                .password(this.password)
+                .name(this.name)
+                .nickName(this.nickName)
+                .phoneNumber(this.phoneNumber)
+                .role(this.role)
                 .email(this.email)
                 .money(this.money)
-                .modify(this.modify)
-                .create(this.create)
-                .items(this.items)
+                .modified(this.modify)
+                .created(this.create)
+                .items(this.items.stream().map(ItemDTO::toEntity).collect(Collectors.toList())) // ItemDTO를 Item 엔티티로 변환
                 .build();
     }
 
-    public UserDTO fromEntity(User user){
-        return UserDTO.builder()
-                .id(user.getId())
-                .accountId(user.getAccountId())
-                .password(user.getPassword())
-                .name(user.getName())
-                .nickName(user.getNickName())
-                .phoneNumber(user.getPhoneNumber())
-                .role(user.getRole())
-                .email(user.getEmail())
-                .money(user.getMoney())
-                .modify(user.getModify())
-                .create(user.getCreate())
-                .items(user.getItems())
-                .build();
-    }
-
-    public UserDTO(){
-
+    public static UserDTO fromEntity(User user){
+        UserDTO dto = new UserDTO();
+        dto.setId(user.getId());
+        dto.setAccountId(user.getAccountId());
+        dto.setPassword(user.getPassword());
+        dto.setName(user.getName());
+        dto.setNickName(user.getNickName());
+        dto.setPhoneNumber(user.getPhoneNumber());
+        dto.setRole(user.getRole());
+        dto.setEmail(user.getEmail());
+        dto.setMoney(user.getMoney());
+        dto.setModify(user.getModified());
+        dto.setCreate(user.getCreated());
+        dto.setItems(user.getItems().stream().map(ItemDTO::fromEntity).collect(Collectors.toList())); // Item 엔티티를 ItemDTO로 변환
+        return dto;
     }
 }

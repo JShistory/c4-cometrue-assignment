@@ -1,6 +1,7 @@
 package org.c4marathon.assignment.openMarket.config;
 
-import org.h2.server.web.JakartaWebServlet;
+import org.c4marathon.assignment.openMarket.domain.User;
+import org.c4marathon.assignment.openMarket.domain.UserRole;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,40 +28,42 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http
-                .httpBasic(HttpBasicConfigurer::disable)
-                .csrf(CsrfConfigurer::disable)
 
-                .cors(Customizer.withDefaults())
-                .authorizeHttpRequests(authorizeRequest ->
-                        authorizeRequest
-                                .requestMatchers(
-                                        AntPathRequestMatcher.antMatcher("/**")
-                                ).permitAll()
-                                .requestMatchers(
-                                        AntPathRequestMatcher.antMatcher("/h2-console/**")
-                                ).permitAll()
+        http
+                .authorizeHttpRequests((auth) -> auth
+                        .requestMatchers("/", "/user", "userProc","/login","/item/itemList").permitAll()
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/user/**").hasAnyRole("USER","ADMIN")
+                        .requestMatchers("/item/**").hasAnyRole("SELLER","ADMIN")
+                        .anyRequest().authenticated()
 
-                )
-                .headers(
-                        headersConfigurer ->
-                                headersConfigurer
-                                        .frameOptions(
-                                                HeadersConfigurer.FrameOptionsConfig::sameOrigin
-                                        )
-                )
-                .build();
+                );
+        http
+                .formLogin((auth) -> auth.loginPage("/login")
+                            .loginProcessingUrl("/loginProc")
+                            .permitAll()
+                );
+
+        http
+                .logout((auth) -> auth
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/")
+                        .deleteCookies("JSESSIONID", "remember-me")
+                );
+
+        http
+                .sessionManagement((auth) -> auth
+                        .maximumSessions(1)
+                        .maxSessionsPreventsLogin(true));
+
+
+        http
+                .csrf((auth) -> auth.disable());
+
+        return http.build();
 
     }
 
-    @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        // 정적 리소스 spring security 대상에서 제외
-        return (web) ->
-                web
-                        .ignoring()
-                        .requestMatchers(
-                                PathRequest.toStaticResources().atCommonLocations()
-                        );
-    }
+
+
 }
