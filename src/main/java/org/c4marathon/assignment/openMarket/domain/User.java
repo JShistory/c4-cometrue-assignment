@@ -14,7 +14,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 @Getter
 @Entity
-@Table(name = "USER_TABLE")
+@Table(name = "user_table")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
